@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SearchAppBar from './Components/Navigation/SearchAppBar';
+import BottomNavigation from './Components/Navigation/BottomNavigation';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import PlotAddress from './Pages/PlotAddress';
 import PVUBot from './Pages/PVUBot';
@@ -20,6 +21,8 @@ function SimpleContainer() {
             <Route path='/' exact component={PlotAddress} />
             <Route path='/bot' exact component={PVUBot} />
           </Switch>
+          <br />
+          <BottomNavigation />
         </Router>
       </Container>
     </Fragment>

@@ -40,12 +40,16 @@ export default function SearchAppBar() {
                     </Typography>
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
-                            <span style={{ color: "white", fontWeight: "bold" }}>Plot Addresses</span>
+                            <Typography noWrap>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Plot Addresses</span>
+                            </Typography>
                         </Button>
                     </Link>
                     <Link to="/bot" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
-                            <span style={{ color: "white", fontWeight: "bold" }}>Bot</span>
+                            <Typography noWrap>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Bot</span>
+                            </Typography>
                         </Button>
                     </Link>
                 </Toolbar>
