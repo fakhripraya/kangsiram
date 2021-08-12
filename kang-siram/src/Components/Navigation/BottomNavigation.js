@@ -19,11 +19,7 @@ export default function LabelBottomNavigation() {
 
     return (
         <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-            <BottomNavigationAction showLabel label="Created by : PakPres" value="Created" />
-            <BottomNavigationAction showLabel label="" value="left" />
-            <BottomNavigationAction showLabel label="Donation : 0xf0F16b80Ff38F882dD5b3C0Ed6ec4e06774324D7" value="Donation" />
-            <BottomNavigationAction showLabel label="" value="right" />
-            <BottomNavigationAction showLabel label="Credit to : Altergogi" value="Credit" />
+            <BottomNavigationAction showLabel label="Made with love" value="Love" />
         </BottomNavigation>
     );
 }

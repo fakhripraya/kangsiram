@@ -32,15 +32,27 @@ const customStyles = makeStyles((theme) => ({
     },
 }));
 
-function ActionButton() {
+function ActionButton(props) {
     const externalClasses = customStyles();
+
+    const copyToClipboard = (content) => {
+        const el = document.createElement('textarea');
+        el.value = content;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    };
 
     return (
         <div className={externalClasses.buttonWrapper}>
-            <Button variant="contained" color="secondary">
+
+            <Button onClick={() => {
+                copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
+            }} variant="contained" color="secondary">
                 Copy
             </Button>
-            <Button variant="contained" color="primary">
+            <Button href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
                 Go
             </Button>
         </div>
@@ -48,11 +60,11 @@ function ActionButton() {
 }
 
 const rows = [
-    createData('1', '0x53a987ecbd7c756743711e1ed9aab70920c0ba28', <ActionButton />),
-    createData('2', '0x876f76e793b3e00ab9d841ba028fbdf2ccd12636', <ActionButton />),
-    createData('3', '0x58e357f102f35595833ee54b6d99c7ee2ee48247', <ActionButton />),
-    createData('4', '0xe827cea769af1df672908f18452db38693d4f641', <ActionButton />),
-    createData('5', '0x74269aaf46408dc57655e10ac08e343158fdda44', <ActionButton />),
+    createData('1', '0x53a987ecbd7c756743711e1ed9aab70920c0ba28', <ActionButton urlTab="0x53a987ecbd7c756743711e1ed9aab70920c0ba28" />),
+    createData('2', '0x876f76e793b3e00ab9d841ba028fbdf2ccd12636', <ActionButton urlTab="0x876f76e793b3e00ab9d841ba028fbdf2ccd12636" />),
+    createData('3', '0x58e357f102f35595833ee54b6d99c7ee2ee48247', <ActionButton urlTab="0x58e357f102f35595833ee54b6d99c7ee2ee48247" />),
+    createData('4', '0xe827cea769af1df672908f18452db38693d4f641', <ActionButton urlTab="0xe827cea769af1df672908f18452db38693d4f641" />),
+    createData('5', '0x74269aaf46408dc57655e10ac08e343158fdda44', <ActionButton urlTab="0x74269aaf46408dc57655e10ac08e343158fdda44" />),
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -88,10 +100,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount } = props;
 
     return (
         <TableHead>
@@ -186,6 +195,15 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 750,
     },
+    tableRow: {
+        '&:hover': {
+            cursor: 'pointer',
+            backgroundColor: theme.palette.grey[100],
+            "& $addIcon": {
+                color: "purple"
+            }
+        }
+    },
     visuallyHidden: {
         border: 0,
         clip: 'rect(0 0 0 0)',
@@ -224,7 +242,7 @@ export default function EnhancedTable() {
     };
 
     const handleClick = (event, name) => {
-
+        window.open('#', '_blank'); window.open(`https://marketplace.plantvsundead.com/farm/other/${name}`, '_self');
     };
 
     const handleChangePage = (event, newPage) => {
@@ -274,7 +292,7 @@ export default function EnhancedTable() {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
+                                            className={classes.tableRow}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -287,8 +305,8 @@ export default function EnhancedTable() {
                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{row.number}</TableCell>
-                                            <TableCell align="center">{row.name}</TableCell>
+                                            <TableCell onClick={(event) => handleClick(event, row.name)} align="center">{row.number}</TableCell>
+                                            <TableCell onClick={(event) => handleClick(event, row.name)} align="center">{row.name}</TableCell>
                                             <TableCell align="center">{row.action}</TableCell>
                                         </TableRow>
                                     );
@@ -302,7 +320,7 @@ export default function EnhancedTable() {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[5, 10, 25, rows.length]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
