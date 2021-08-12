@@ -1,61 +1,62 @@
 export const KangKebon = `
-    // ==UserScript==
-    // @name         Kang Kebun
-    // @namespace    http://tampermonkey.net/
-    // @version      1.0.9
-    // @description  try to take over the world!
-    // @author       You
-    // @match        https://marketplace.plantvsundead.com/farm/other/*
-    // @icon         https://plantvsundead.com/assets/img/icon.svg
-    // @updateURL    https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu.user.js
-    // @require      https://cdn.jsdelivr.net/npm/toastify-js
-    // @resource     REMOTE_CSS https://raw.githubusercontent.com/fakhripraya/KangKebon/main/toast.css
-    // @grant        GM_xmlhttpRequest
-    // @grant        GM_getResourceText
-    // @grant        GM_addStyle
-    // ==/UserScript==
+// ==UserScript==
+// @name         Kang Kebun
+// @namespace    http://tampermonkey.net/
+// @version      1.0.10
+// @description  try to take over the world!
+// @author       You
+// @match        https://marketplace.plantvsundead.com/farm/other/*
+// @icon         https://plantvsundead.com/assets/img/icon.svg
+// @updateURL    https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu.user.js
+// @require      https://cdn.jsdelivr.net/npm/toastify-js
+// @resource     REMOTE_CSS https://raw.githubusercontent.com/fakhripraya/KangKebon/main/toast.css
+// @grant        GM_xmlhttpRequest
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
+// ==/UserScript==
 
-    (function () {
-        'use strict';
+(function () {
+    'use strict';
 
-        // Load remote JS
-        GM_xmlhttpRequest({
-            method: "GET",
-            url: "https://www.cssscript.com/demo/simple-vanilla-javascript-toast-notification-library-toastify/src/toastify.js",
-            onload: (ev) => {
-                let e = document.createElement('script');
-                e.innerText = ev.responseText;
-                document.head.appendChild(e);
-            }
-        });
+    // Load remote JS
+    GM_xmlhttpRequest({
+        method: "GET",
+        url: "https://www.cssscript.com/demo/simple-vanilla-javascript-toast-notification-library-toastify/src/toastify.js",
+        onload: (ev) => {
+            let e = document.createElement('script');
+            e.innerText = ev.responseText;
+            document.head.appendChild(e);
+        }
+    });
 
-        // Load remote CSS
-        const remoteCss = GM_getResourceText("REMOTE_CSS");
-        GM_addStyle(remoteCss);
+    // Load remote CSS
+    const remoteCss = GM_getResourceText("REMOTE_CSS");
+    GM_addStyle(remoteCss);
 
-        //Toast
-        var dryWaterToast = Toastify({
-            text: "Ada yang kering nih! ",
-            close: true
-        })
+    //Toast
+    var dryWaterToast = Toastify({
+        text: "Ada yang kering nih! ",
+        close: true
+    })
 
-        var lastPageToast = Toastify({
-            text: "Sudah page terakhir :( ",
-            close: true
-        })
+    var lastPageToast = Toastify({
+        text: "Sudah page terakhir :( ",
+        close: true
+    })
 
-        var maxWater = 60;
+    var maxWater = 60;
 
-        console.log("Loading...")
+    console.log("Loading...")
 
-        var interval = setInterval(() => {
-            var loadingGif = document.getElementsByClassName("loading-page");
-            var bodyElement = document.getElementById("__layout").children[0].children[1].children[0];
+    var interval = setInterval(() => {
+        var loadingGif = document.getElementsByClassName("loading-page");
+        var capthaWindow = document.getElementsByClassName("tw-m-auto exclamation");
+        var bodyElement = document.getElementById("__layout").children[0].children[1].children[0];
 
-            if (typeof (bodyElement) !== 'undefined') {
-                if (bodyElement.className === "content-wrapper tw-bg-farm-mobile sm:tw-bg-farm-desktop tw-p-2") {
-                    if (loadingGif.length === 0) {
-
+        if (typeof (bodyElement) !== 'undefined') {
+            if (bodyElement.className === "content-wrapper tw-bg-farm-mobile sm:tw-bg-farm-desktop tw-p-2") {
+                if (loadingGif.length === 0) {
+                    if (typeof (capthaWindow) !== 'undefined') {
                         var curPage = document.getElementsByClassName("currentPage tw-mr-2")[0];
                         if (typeof (curPage) !== 'undefined')
                             curPage = curPage.innerText;
@@ -97,6 +98,7 @@ export const KangKebon = `
                     }
                 }
             }
-        }, 2000);
-    })();
+        }
+    }, 2000);
+})();
 `
