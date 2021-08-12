@@ -18,53 +18,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import Button from '@material-ui/core/Button';
+import LandAddresses from '../../Data/LandAddresses';
 
-function createData(number, name, action) {
-    return { number, name, action };
-}
-
-const customStyles = makeStyles((theme) => ({
-    buttonWrapper: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-}));
-
-function ActionButton(props) {
-    const externalClasses = customStyles();
-
-    const copyToClipboard = (content) => {
-        const el = document.createElement('textarea');
-        el.value = content;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    };
-
-    return (
-        <div className={externalClasses.buttonWrapper}>
-            <Button onClick={() => {
-                copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
-            }} variant="contained" color="secondary">
-                Copy
-            </Button>
-            <Button href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
-                Go
-            </Button>
-        </div>
-    )
-}
-
-const rows = [
-    createData('1', '0x53a987ecbd7c756743711e1ed9aab70920c0ba28', <ActionButton urlTab="0x53a987ecbd7c756743711e1ed9aab70920c0ba28" />),
-    createData('2', '0x876f76e793b3e00ab9d841ba028fbdf2ccd12636', <ActionButton urlTab="0x876f76e793b3e00ab9d841ba028fbdf2ccd12636" />),
-    createData('3', '0x58e357f102f35595833ee54b6d99c7ee2ee48247', <ActionButton urlTab="0x58e357f102f35595833ee54b6d99c7ee2ee48247" />),
-    createData('4', '0xe827cea769af1df672908f18452db38693d4f641', <ActionButton urlTab="0xe827cea769af1df672908f18452db38693d4f641" />),
-    createData('5', '0x74269aaf46408dc57655e10ac08e343158fdda44', <ActionButton urlTab="0x74269aaf46408dc57655e10ac08e343158fdda44" />),
-];
+const rows = LandAddresses();
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
