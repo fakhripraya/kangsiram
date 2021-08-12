@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import FullScreenDialog from '../Components/Dialog/FullScreenDialog';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -56,6 +57,7 @@ export default function SpacingGrid() {
             desc7: "- Have fun",
             img: "https://www.freepnglogos.com/uploads/farmer-png/farmer-shipahn-luis-deviantart-29.png",
             id: 0,
+            link: "https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu.user.js"
         },
         {
             nama: "Kang Gagak",
@@ -69,6 +71,7 @@ export default function SpacingGrid() {
             desc7: "- Have fun",
             img: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/676901b4-3208-4d9c-8990-042b114be3b1/de7n35w-ca998e95-1b35-458f-a7e2-bfddf3363ed2.png/v1/fill/w_850,h_940,strp/crow_64_catastrophe_crow_by_c4stl3_cr4sh3rs_de7n35w-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI5MCIsInBhdGgiOiJcL2ZcLzY3NjkwMWI0LTMyMDgtNGQ5Yy04OTkwLTA0MmIxMTRiZTNiMVwvZGU3bjM1dy1jYTk5OGU5NS0xYjM1LTQ1OGYtYTdlMi1iZmRkZjMzNjNlZDIucG5nIiwid2lkdGgiOiI8PTExNjcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ._E3wdPwe4aU0lkuhdwFHHmdlRfhFUkxCtgqXB0FK228",
             id: 1,
+            link: "https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu-gagak.user.js"
         },
         {
             nama: "Kang Kebon Bergagak",
@@ -82,6 +85,7 @@ export default function SpacingGrid() {
             desc7: "- Have fun",
             img: "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f6aa8c0b-c935-4d69-93ce-e7215cc5da1f/ddya2n2-bf43e176-3195-4ef7-bd26-df6cee65826c.png/v1/fill/w_1024,h_1730,q_80,strp/bday___crow_and_farmer_by_luigistar445_ddya2n2-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTczMCIsInBhdGgiOiJcL2ZcL2Y2YWE4YzBiLWM5MzUtNGQ2OS05M2NlLWU3MjE1Y2M1ZGExZlwvZGR5YTJuMi1iZjQzZTE3Ni0zMTk1LTRlZjctYmQyNi1kZjZjZWU2NTgyNmMucG5nIiwid2lkdGgiOiI8PTEwMjQifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.CgwTGxvu8UjO_JFi1dBDP_rysEH_afdZPsI9h-cDpZw",
             id: 2,
+            link: "https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu-kebon-gagak.user.js"
         },
     ]
 
@@ -128,6 +132,9 @@ export default function SpacingGrid() {
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
+                                        <Button href={value.link} variant="contained" color="primary">
+                                            Install / Update
+                                        </Button>
                                         <FullScreenDialog id={value.id} />
                                     </CardActions>
                                 </Card>
