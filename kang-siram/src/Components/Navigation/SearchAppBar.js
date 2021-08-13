@@ -38,6 +38,13 @@ export default function SearchAppBar() {
                     <Typography className={classes.title} variant="h6" noWrap>
                         <span style={{ color: "white", fontWeight: "bold" }}>PVU Land Helper</span>
                     </Typography>
+                    <Link to="/log" style={{ textDecoration: 'none' }}>
+                        <Button className={classes.navButton} variant="contained">
+                            <Typography noWrap>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Change Log</span>
+                            </Typography>
+                        </Button>
+                    </Link>
                     <Link to="/" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
                             <Typography noWrap>

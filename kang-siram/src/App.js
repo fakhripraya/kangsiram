@@ -6,6 +6,7 @@ import BottomNavigation from './Components/Navigation/BottomNavigation';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import PlotAddress from './Pages/PlotAddress';
 import PVUBot from './Pages/PVUBot';
+import ChangeLog from './Pages/ChangeLog';
 import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
@@ -19,6 +20,7 @@ function SimpleContainer() {
           <SearchAppBar />
           <Switch>
             <Route path='/' exact component={PlotAddress} />
+            <Route path='/log' exact component={ChangeLog} />
             {/* <Route path='/bot' exact component={PVUBot} /> */}
           </Switch>
           <br />
