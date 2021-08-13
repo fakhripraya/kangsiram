@@ -196,10 +196,6 @@ export default function EnhancedTable() {
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        window.open('#', '_blank'); window.open(`https://marketplace.plantvsundead.com/farm/other/${name}`, '_self');
-    };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -284,8 +280,8 @@ export default function EnhancedTable() {
                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                 />
                                             </TableCell>
-                                            <TableCell onClick={(event) => handleClick(event, row.name)} align="center">{row.number}</TableCell>
-                                            <TableCell onClick={(event) => handleClick(event, row.name)} align="center">{row.name}</TableCell>
+                                            <TableCell onClick={(event) => handleSelect(row.name)} align="center">{row.number}</TableCell>
+                                            <TableCell onClick={(event) => handleSelect(row.name)} align="center">{row.name}</TableCell>
                                             <TableCell align="center">{row.action}</TableCell>
                                         </TableRow>
                                     );
