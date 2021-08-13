@@ -390,34 +390,41 @@ function createData(number, name, action) {
     return { number, name, action };
 }
 
-function ActionButton(props) {
-    const externalClasses = customStyles();
-
-    const copyToClipboard = (content) => {
-        const el = document.createElement('textarea');
-        el.value = content;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    };
-
-    return (
-        <div className={externalClasses.buttonWrapper}>
-            <Button onClick={() => {
-                copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
-            }} variant="contained" color="secondary">
-                Copy
-            </Button>
-            <Button href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
-                Go
-            </Button>
-        </div>
-    )
-}
-
-export default function LandAddresses() {
+export default function LandAddresses(callback) {
     var addresses = [];
+
+    function ActionButton(props) {
+        const externalClasses = customStyles();
+
+        const handleMiddleClick = (e) => {
+            if (e.button === 1) {
+                callback(props.urlTab);
+            }
+        };
+
+        const copyToClipboard = (content) => {
+            const el = document.createElement('textarea');
+            el.value = content;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+        };
+
+        return (
+            <div className={externalClasses.buttonWrapper}>
+                <Button onClick={() => {
+                    copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
+                }} variant="contained" color="secondary">
+                    Copy
+                </Button>
+                <Button onMouseDown={handleMiddleClick} href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
+                    Go
+                </Button>
+            </div>
+        )
+    }
+
     LandAddressesData.forEach((element, index) => {
         addresses.push(createData(index + 1, element, <ActionButton urlTab={element} />))
     })

@@ -16,8 +16,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import LandAddresses from '../../Data/LandAddresses';
-
-const rows = LandAddresses();
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -106,7 +106,6 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const { numSelected } = props;
 
     return (
         <Toolbar
@@ -115,6 +114,11 @@ const EnhancedTableToolbar = (props) => {
             <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
                 Plot Addresses
             </Typography>
+            <Tooltip title="It will ease your search, trust me">
+                <Button variant="contained" color="primary">
+                    Middle click on the "Go" button to ease your search
+                </Button>
+            </Tooltip>
         </Toolbar>
     );
 };
@@ -160,6 +164,21 @@ export default function EnhancedTable() {
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
+
+    const handleSelect = (name) => {
+        var arr = [...selected]
+        var temp = arr.indexOf(name);
+        if (temp === -1) {
+            arr.push(name)
+        } else {
+            arr.splice(temp, 1);
+        }
+
+        setSelected(arr);
+    };
+
+    const rows = LandAddresses(handleSelect);
+
     const [rowsPerPage, setRowsPerPage] = React.useState(rows.length);
 
     const handleRequestSort = (event, property) => {
@@ -175,18 +194,6 @@ export default function EnhancedTable() {
             return;
         }
         setSelected([]);
-    };
-
-    const handleSelect = (name) => {
-        var arr = [...selected]
-        var temp = arr.indexOf(name);
-        if (temp === -1) {
-            arr.push(name)
-        } else {
-            arr.splice(temp, 1);
-        }
-
-        setSelected(arr);
     };
 
     const handleClick = (event, name) => {
