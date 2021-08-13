@@ -396,10 +396,11 @@ export default function LandAddresses(callback) {
     function ActionButton(props) {
         const externalClasses = customStyles();
 
-        const handleMiddleClick = (e) => {
-            if (e.button === 1) {
-                callback(props.urlTab);
-            }
+        const handleClick = (e) => {
+            e.preventDefault();
+
+            callback(props.urlTab);
+            window.open(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`, "_blank")
         };
 
         const copyToClipboard = (content) => {
@@ -418,7 +419,7 @@ export default function LandAddresses(callback) {
                 }} variant="contained" color="secondary">
                     Copy
                 </Button>
-                <Button onMouseDown={handleMiddleClick} href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
+                <Button onClick={handleClick} href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
                     Go
                 </Button>
             </div>

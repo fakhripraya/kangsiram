@@ -115,7 +115,7 @@ const EnhancedTableToolbar = (props) => {
                 Plot Addresses
             </Typography>
             <Tooltip title="It will ease your search, trust me">
-                <Button variant="contained" color="primary">
+                <Button fullWidth variant="contained" color="primary">
                     Middle click on the "Go" button to ease your search
                 </Button>
             </Tooltip>
@@ -165,7 +165,7 @@ export default function EnhancedTable() {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
 
-    const handleSelect = (name) => {
+    const handleSelect = async (name) => {
         var arr = [...selected]
         var temp = arr.indexOf(name);
         if (temp === -1) {
