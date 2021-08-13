@@ -19,7 +19,7 @@ function SimpleContainer() {
           <SearchAppBar />
           <Switch>
             <Route path='/' exact component={PlotAddress} />
-            <Route path='/bot' exact component={PVUBot} />
+            {/* <Route path='/bot' exact component={PVUBot} /> */}
           </Switch>
           <br />
           <BottomNavigation />
