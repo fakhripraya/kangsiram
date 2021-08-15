@@ -23,7 +23,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const upperHeadCells = [
     { id: 'check', sort: false, disablePadding: true, label: 'Check' },
     { id: 'emoty', sort: true, disablePadding: false, label: '' },
-    { id: 'empty2', sort: false, disablePadding: false, label: 'Donate: 0xf0F16b80Ff38F882dD5b3C0Ed6ec4e06774324D7' },
+    { id: 'empty2', sort: false, disablePadding: false, label: 'Pakpres: 0xf0F16b80Ff38F882dD5b3C0Ed6ec4e06774324D7 | Aphrogame: 0xc3B04a735c5cDea8e19e9858d9E4D916B14605c2 | Altergogi: 0xede11088f435e293574fe87ac254004f0c7a41aa' },
 ];
 
 const headCells = [
