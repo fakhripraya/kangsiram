@@ -163,6 +163,11 @@ export function AutoDetector() {
                         Complete the captha in the game to continue the search
                     </p>
                 </div>
+                <Button fullWidth onClick={() => {
+                    setCaptha(false)
+                }} variant="contained" color="secondary">
+                    Hide
+                </Button>
             </Modal>
         )
     }
