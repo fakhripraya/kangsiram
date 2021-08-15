@@ -5,6 +5,8 @@ import SearchAppBar from './Components/Navigation/SearchAppBar';
 import BottomNavigation from './Components/Navigation/BottomNavigation';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import PlotAddress from './Pages/PlotAddress';
+import { AutoDetector } from './Pages/AutoDetector';
+import { AutoDetectorV2 } from './Pages/AutoDetectorV2';
 import PVUBot from './Pages/PVUBot';
 import ChangeLog from './Pages/ChangeLog';
 import { createBrowserHistory } from 'history';
@@ -20,8 +22,10 @@ function SimpleContainer() {
           <SearchAppBar />
           <Switch>
             <Route path='/' exact component={PlotAddress} />
+            <Route path='/detector' exact component={AutoDetector} />
+            {/* <Route path='/detectorv2' exact component={AutoDetectorV2} /> */}
             <Route path='/log' exact component={ChangeLog} />
-            {/* <Route path='/bot' exact component={PVUBot} /> */}
+            <Route path='/bot' exact component={PVUBot} />
           </Switch>
           <br />
           <BottomNavigation />

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SpacingGrid() {
-    const [spacing, setSpacing] = useState(2);
+    const [spacing] = useState(2);
     const classes = useStyles();
 
     const botList = [
