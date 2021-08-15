@@ -14,6 +14,7 @@ import { useState } from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Collapse from '@material-ui/core/Collapse';
 import { whitelist } from '../Data/Cred';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -147,30 +148,6 @@ export function AutoDetector() {
     //             clearInterval(interval);
     //         })
     // }
-
-    function WarningSign() {
-        const classes = useStyles();
-
-        return (
-            <Modal
-                open={captha}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-            >
-                <div className={classes.paper}>
-                    <h2 style={{ textAlign: 'center' }} id="simple-modal-title">Captha required</h2>
-                    <p style={{ textAlign: 'center' }} id="simple-modal-description">
-                        Complete the captha in the game to continue the search
-                    </p>
-                </div>
-                <Button fullWidth onClick={() => {
-                    setCaptha(false)
-                }} variant="contained" color="secondary">
-                    Hide
-                </Button>
-            </Modal>
-        )
-    }
 
     function LogoutSign() {
         const classes = useStyles();
@@ -364,11 +341,13 @@ export function AutoDetector() {
                 }} variant="contained" color="secondary">
                     Clear
                 </Button>
+                <Collapse in={captha}>
+                    <Alert severity="warning">INPUT CAPTHA ON THE MAIN GAME!</Alert>
+                </Collapse>
                 <Collapse in={loading}>
                     <LinearProgress />
                 </Collapse>
                 <LogoutSign />
-                <WarningSign />
                 <DetectorTable />
             </Box>
         )
