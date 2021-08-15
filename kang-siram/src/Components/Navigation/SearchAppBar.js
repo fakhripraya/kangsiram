@@ -66,13 +66,13 @@ export default function SearchAppBar() {
                             </Typography>
                         </Button>
                     </Link> */}
-                    <Link to="/bot" style={{ textDecoration: 'none' }}>
+                    {/* <Link to="/bot" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
                             <Typography noWrap>
                                 <span style={{ color: "white", fontWeight: "bold" }}>Bot</span>
                             </Typography>
                         </Button>
-                    </Link>
+                    </Link> */}
                 </Toolbar>
             </AppBar>
         </div>
