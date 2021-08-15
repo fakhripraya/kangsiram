@@ -48,6 +48,15 @@ export const Log = [
 
 // Issues :
 `
+    ,
+    `
+// Change Log 1.3.3
+
+// Changes :
+- add hidden super feature A_A 
+
+// Issues :
+`
 ]
 
 
