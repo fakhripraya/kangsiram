@@ -2,10 +2,10 @@ export const KangKebon = `
 // ==UserScript==
 // @name         Kang Kebun
 // @namespace    http://tampermonkey.net/
-// @version      1.0.10
+// @version      1.1.14
 // @description  try to take over the world!
 // @author       You
-// @match        https://marketplace.plantvsundead.com/farm/other/*
+// @match        https://marketplace.plantvsundead.com/*
 // @icon         https://plantvsundead.com/assets/img/icon.svg
 // @updateURL    https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu.user.js
 // @require      https://cdn.jsdelivr.net/npm/toastify-js
@@ -44,19 +44,22 @@ export const KangKebon = `
         close: true
     })
 
-    var maxWater = 60;
+    var maxWater = 25,
+        checkloop = true,
+        prevPage = 0,
+        backgroundElement;
 
     console.log("Loading...")
 
     var interval = setInterval(() => {
         var loadingGif = document.getElementsByClassName("loading-page");
-        var capthaWindow = document.getElementsByClassName("tw-m-auto exclamation");
+        var capthaDialog = document.getElementsByClassName("v-dialog__content v-dialog__content--active");
         var bodyElement = document.getElementById("__layout").children[0].children[1].children[0];
 
         if (typeof (bodyElement) !== 'undefined') {
             if (bodyElement.className === "content-wrapper tw-bg-farm-mobile sm:tw-bg-farm-desktop tw-p-2") {
                 if (loadingGif.length === 0) {
-                    if (typeof (capthaWindow) !== 'undefined') {
+                    if (capthaDialog.length === 0) {
                         var curPage = document.getElementsByClassName("currentPage tw-mr-2")[0];
                         if (typeof (curPage) !== 'undefined')
                             curPage = curPage.innerText;
@@ -67,6 +70,16 @@ export const KangKebon = `
                             maxPage = maxPage[0];
                         }
 
+                        if (curPage != prevPage) {
+                            var revertElement = document.getElementsByClassName("tw-p-3");
+                            for (let i = 0; i < revertElement.length; i++) {
+                                if (revertElement[i].style.backgroundColor == "red") {
+                                    revertElement[i].style.backgroundColor = "#151721";
+                                }
+                                prevPage = prevPage++;
+                            }
+                        }
+
                         var validCount = 0;
                         var waterParent = document.getElementsByClassName("tw-absolute tool-icon");
                         for (let i = 0; i < waterParent.length; i++) {
@@ -74,6 +87,15 @@ export const KangKebon = `
                                 console.log(waterParent[i].parentElement.children[2].innerText)
                                 if (waterParent[i].parentElement.children[2].innerText < maxWater) {
                                     validCount++
+                                    backgroundElement = waterParent[i].parentNode.parentNode.parentNode.parentNode.parentNode;
+                                    waterParent[i].parentNode.parentNode.parentNode.parentNode.parentNode.style.backgroundColor = "red";
+                                    if (checkloop) {
+                                        waterParent[i].parentNode.parentNode.parentNode.parentNode.parentNode.scrollIntoView({
+                                            block: 'end',
+                                            behavior: 'smooth'
+                                        });
+                                        checkloop = false;
+                                    }
                                 }
                             }
                         }
@@ -90,7 +112,11 @@ export const KangKebon = `
                             console.log("Sudah page terakhir");
                             clearInterval(interval);
                         } else if (validCount === 0) {
-                            document.querySelectorAll('.tw-mt-6')[1].children[4].click();
+                            if (capthaDialog.length === 0) {
+                                document.querySelectorAll('.tw-mt-6')[1].children[4].click();
+                                prevPage = curPage;
+                                checkloop = true;
+                            }
                         } else {
                             dryWaterToast.showToast();
                             console.log("Ada yang kering nih");

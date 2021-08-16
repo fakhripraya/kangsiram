@@ -52,27 +52,20 @@ export default function SearchAppBar() {
                             </Typography>
                         </Button>
                     </Link>
-                    {/* <Link to="/detector" style={{ textDecoration: 'none' }}>
+                    <Link to="/detector" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
                             <Typography noWrap>
-                                <span style={{ color: "white", fontWeight: "bold" }}>Detector</span>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Kang Nyari</span>
                             </Typography>
                         </Button>
                     </Link>
-                    <Link to="/detectorv2" style={{ textDecoration: 'none' }}>
+                    <Link to="/bot" style={{ textDecoration: 'none' }}>
                         <Button className={classes.navButton} variant="contained">
                             <Typography noWrap>
-                                <span style={{ color: "white", fontWeight: "bold" }}>Detector (No captha)</span>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Kang Kebon</span>
                             </Typography>
                         </Button>
-                    </Link> */}
-                    {/* <Link to="/bot" style={{ textDecoration: 'none' }}>
-                        <Button className={classes.navButton} variant="contained">
-                            <Typography noWrap>
-                                <span style={{ color: "white", fontWeight: "bold" }}>Bot</span>
-                            </Typography>
-                        </Button>
-                    </Link> */}
+                    </Link>
                 </Toolbar>
             </AppBar>
         </div>

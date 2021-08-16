@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configStore from './Redux/store';
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import axios from 'axios';
 
 const { store, persistor } = configStore();
 

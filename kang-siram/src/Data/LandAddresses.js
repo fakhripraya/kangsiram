@@ -25,7 +25,7 @@ export default function LandAddresses(callback) {
             e.preventDefault();
 
             callback(props.urlTab);
-            window.open(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`, "_blank")
+            window.open(`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`, "_blank")
         };
 
         const copyToClipboard = (content) => {
@@ -40,11 +40,11 @@ export default function LandAddresses(callback) {
         return (
             <div className={externalClasses.buttonWrapper}>
                 <Button onClick={() => {
-                    copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
+                    copyToClipboard(`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`);
                 }} variant="contained" color="secondary">
                     Copy
                 </Button>
-                <Button onClick={handleClick} href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
+                <Button onClick={handleClick} href={`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`} variant="contained" color="primary">
                     Go
                 </Button>
             </div>

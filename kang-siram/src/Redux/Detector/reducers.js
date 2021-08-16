@@ -3,7 +3,7 @@ import { DETECTOR_WATER, DETECTOR_TOKEN, DETECTOR_FROM, DETECTOR_DOWNLOAD_FROM, 
 const detectorState = {
     token: "",
     water: 1,
-    from: 1,
+    from: 0,
     downloadFrom: 1,
     addresses: [],
 }

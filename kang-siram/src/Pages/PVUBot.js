@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import FullScreenDialog from '../Components/Dialog/FullScreenDialog';
 import Button from '@material-ui/core/Button';
+import { whitelist } from '../Data/Cred';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SpacingGrid() {
     const [spacing] = useState(2);
     const classes = useStyles();
+    var [password, setPassword] = useState(true)
+    var [pwd, setInputPwd] = useState("")
 
     const botList = [
         {
@@ -89,60 +93,94 @@ export default function SpacingGrid() {
         },
     ]
 
-    return (
-        <Box component="span" m={1}>
-            <Grid container className={classes.root} spacing={2}>
-                <Grid item xs={12}>
-                    <Grid container justifyContent="center" spacing={spacing}>
-                        {botList.map((value, index) => (
-                            <Grid key={index} item>
-                                <Card className={classes.cardRoot}>
-                                    <CardMedia
-                                        className={classes.media}
-                                        image={value.img}
-                                        title={value.nama}
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            <span style={{ color: "#58BD0C" }}>{value.nama}</span>
-                                        </Typography>
-                                        <Typography variant="h6" component="h2" gutterBottom>
-                                            {value.headerText}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc1}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc2}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc3}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc4}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc5}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc6}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            {value.desc7}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button href={value.link} variant="contained" color="primary">
-                                            Install / Update
-                                        </Button>
-                                        <FullScreenDialog id={value.id} />
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
+    if (password === true) {
+        return (
+            <Box component="span" m={1}>
+                <div className={classes.root}>
+                    <Typography variant="h5" component="h2">
+                        Kang Kebon
+                    </Typography>
+                    <TextField
+                        id="outlined-full-width"
+                        label="Input Password"
+                        fullWidth
+                        value={pwd}
+                        onChange={(e) => {
+                            setInputPwd(e.target.value)
+                        }}
+                        placeholder="Input whitelist password here"
+                        margin="normal"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="outlined"
+                    />
+                    <Button fullWidth onClick={() => {
+                        if (typeof (whitelist.find(el => el === pwd)) !== 'undefined') {
+                            setPassword(false)
+                        }
+                    }} variant="contained" color="primary">
+                        Submit
+                    </Button>
+                </div>
+            </Box>
+        )
+    } else {
+        return (
+            <Box component="span" m={1}>
+                <Grid container className={classes.root} spacing={2}>
+                    <Grid item xs={12}>
+                        <Grid container justifyContent="center" spacing={spacing}>
+                            {botList.map((value, index) => (
+                                <Grid key={index} item>
+                                    <Card className={classes.cardRoot}>
+                                        <CardMedia
+                                            className={classes.media}
+                                            image={value.img}
+                                            title={value.nama}
+                                        />
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="h2">
+                                                <span style={{ color: "#58BD0C" }}>{value.nama}</span>
+                                            </Typography>
+                                            <Typography variant="h6" component="h2" gutterBottom>
+                                                {value.headerText}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc1}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc2}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc3}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc4}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc5}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc6}
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary" component="p">
+                                                {value.desc7}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button href={value.link} variant="contained" color="primary">
+                                                Install / Update
+                                            </Button>
+                                            <FullScreenDialog id={value.id} />
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-        </Box>
-    );
+            </Box>
+        );
+    }
 }

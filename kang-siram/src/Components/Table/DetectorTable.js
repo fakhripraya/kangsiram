@@ -116,7 +116,7 @@ const EnhancedTableToolbar = (props) => {
             className={clsx(classes.root)}
         >
             <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                List of detected land
+                List of detected plants
             </Typography>
             <Tooltip title="It will ease your search, trust me">
                 <Button fullWidth variant="contained" color="primary">
@@ -177,6 +177,8 @@ export default function DetectorTable() {
         } else {
             arr.splice(temp, 1);
         }
+
+        console.log(arr)
 
         setSelected(arr);
     };

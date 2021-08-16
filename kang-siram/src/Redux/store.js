@@ -14,7 +14,7 @@ const rootReducer = {
 
 let persistedReducer = persistCombineReducers(config, rootReducer);
 
-export default () => {
+const store = () => {
     let store = createStore(persistedReducer);
     let persistor = persistStore(store);
     return {
@@ -22,3 +22,5 @@ export default () => {
         persistor
     }
 }
+
+export default store

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Button from '@material-ui/core/Button';
 import { LandAddressesData } from '../Data/Addresses';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Collapse from '@material-ui/core/Collapse';
 import { whitelist } from '../Data/Cred';
 import Alert from '@material-ui/lab/Alert';
+import Dexie from "dexie";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +59,7 @@ export function DetectedAddresses(callback) {
             e.preventDefault();
 
             callback(props.urlTab);
-            window.open(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`, "_blank")
+            window.open(`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`, "_blank")
         };
 
         const copyToClipboard = (content) => {
@@ -73,11 +74,11 @@ export function DetectedAddresses(callback) {
         return (
             <div className={classes.buttonWrapper}>
                 <Button onClick={() => {
-                    copyToClipboard(`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`);
+                    copyToClipboard(`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`);
                 }} variant="contained" color="secondary">
                     Copy
                 </Button>
-                <Button onClick={handleClick} href={`https://marketplace.plantvsundead.com/farm/other/${props.urlTab}`} variant="contained" color="primary">
+                <Button onClick={handleClick} href={`https://marketplace.plantvsundead.com/farm#/farm/other/${props.urlTab}`} variant="contained" color="primary">
                     Go
                 </Button>
             </div>
@@ -85,17 +86,30 @@ export function DetectedAddresses(callback) {
     }
 
     temp.forEach((element, index) => {
-        addresses.push(createData(index + 1, `https://marketplace.plantvsundead.com/farm/other/${element.ownerId}`, element.hasCrow === true ? "yes" : "no", typeof (element.activeTools.find(element => element.type === "WATER")) === 'undefined' ? 999 : element.activeTools.find(element => element.type === "WATER").count, <ActionButton urlTab={element.ownerId} />))
+        addresses.push(createData(index + 1, `https://marketplace.plantvsundead.com/farm#/farm/other/${element.ownerId}`, element.hasCrow === true ? "yes" : "no", typeof (element.activeTools.find(element => element.type === "WATER")) === 'undefined' ? 999 : element.activeTools.find(element => element.type === "WATER").count, <ActionButton urlTab={element.ownerId} />))
     })
 
     return addresses;
 }
 
 export function AutoDetector() {
+
+    const db = new Dexie("IndexedDB");
+
+    //create the database store
+    db.version(2).stores({
+        addresses: "++id,addresses",
+        plants: "++id,plant,ownerId",
+    })
+    db.open().catch((err) => {
+        console.log(err.stack || err)
+    })
+
     var interval;
     const classes = useStyles();
     const dispatch = useDispatch()
     var [captha, setCaptha] = useState(false)
+    // var [onCaptha, setOnCaptha] = useState(false)
     var [session, setSession] = useState(false)
     var [loading, setLoading] = useState(false)
     var [password, setPassword] = useState(true)
@@ -117,7 +131,7 @@ export function AutoDetector() {
         }
     }, [])
 
-    // async function getGeetest() {
+    // async function getCaptha() {
     //     //https://backend-farm.plantvsundead.com/captcha/register
 
     //     let config = {
@@ -131,22 +145,87 @@ export function AutoDetector() {
     //     axios(config)
     //         .then(function (response) {
     //             console.log("masuk")
-    //             console.log(response    )
+    //             console.log(response.data.data)
     //             //Ensure data.gt, data.challenge and data.success are not null
     //             window.initGeetest({
     //                 // The following data are from server side
-    //                 gt: response.data.gt,
-    //                 challenge: response.data.challenge,
-    //                 offline: !response.data.success,
+    //                 gt: response.data.data.gt,
+    //                 challenge: response.data.data.challenge,
+    //                 offline: !response.data.data.success,
     //                 new_captcha: true
     //             }, function (captchaObj) {
     //                 // Call instance method captchaObj
+    //                 console.log(captchaObj)
+    //                 captchaObj.appendTo("#captchaBox"); //Embed CAPTCHA button into "captchaBox" of the host page
+    //                 captchaObj.onReady(function () {
+    //                     //your code
+    //                     console.log("ready")
+
+    //                 }).onSuccess(function () {
+    //                     //your code
+    //                     console.log("success")
+    //                     var result = captchaObj.getValidate();
+
+    //                     let config2 = {
+    //                         method: 'post',
+    //                         data: {
+    //                             challenge: result.geetest_challenge,
+    //                             seccode: result.geetest_validate,
+    //                             validate: result.geetest_seccode,
+    //                         },
+    //                         url: `https://backend-farm.plantvsundead.com/captcha/validate`,
+    //                         headers: {
+    //                             'Authorization': `Bearer ${token}`
+    //                         }
+    //                     }
+
+    //                     axios(config2)
+    //                         .then(function (response) {
+    //                             console.log("captha kelar")
+    //                             console.log(response.data)
+    //                         })
+    //                         .catch(function (error) {
+    //                             console.log("error captha")
+    //                             console.log(error)
+    //                         })
+
+    //                     console.log(result)
+
+    //                 }).onError(function () {
+    //                     //your code
+    //                     console.log("error")
+    //                 })
+
     //             })
     //         })
     //         .catch(function (error) {
     //             console.log(error)
     //             clearInterval(interval);
     //         })
+    // }
+
+    // function CapthaBox() {
+    //     const classes = useStyles();
+
+    //     return (
+    //         <Modal
+    //             open={onCaptha}
+    //             aria-labelledby="simple-modal-title"
+    //             aria-describedby="simple-modal-description"
+    //         >
+    //             <div id="captchaBox" className={classes.paper}>
+    //                 <h2 style={{ textAlign: 'center' }} id="simple-modal-title">Complete the captha</h2>
+    //                 <p style={{ textAlign: 'center' }} id="simple-modal-description">
+    //                     Complete the captha to continue searching
+    //                 </p>
+    //                 {/* <Button fullWidth onClick={() => {
+    //                     setSession(false)
+    //                 }} variant="contained" color="secondary">
+    //                     Close
+    //                 </Button> */}
+    //             </div>
+    //         </Modal>
+    //     )
     // }
 
     function LogoutSign() {
@@ -173,20 +252,87 @@ export function AutoDetector() {
         )
     }
 
+    function ShowDownloaded() {
+
+        return (
+            <Collapse in={(from + 1) !== LandAddressesData.length ? true : false}>
+                <Alert severity="warning">{from} of {LandAddressesData.length} Addresses Downloaded</Alert>
+            </Collapse >
+        )
+    }
+
     function clearTable() {
         clearInterval(interval)
         dispatch(setDetectorAddresses([]))
     }
 
-    const generateAddress = async (token, visitFrom, waterThreshold) => {
-        var count = visitFrom;
-        var temp = []
+    const GenerateAddresses = async (waterThreshold) => {
+        //get all plants from the database
+        let allPlants = []
+        let temp = []
+
+        setLoading(true);
+        const requestGetPlants = async (el) => {
+            let config = {
+                method: 'get',
+                url: `https://backend-farm.plantvsundead.com/farms/${el.plant}`,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+
+            axios(config)
+                .then(async function (response) {
+                    if (response.data.status === 556) {
+                        setCaptha(true);
+                    } else {
+                        setCaptha(false);
+
+                        if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) {
+                            setSession(true); setCaptha(false); setLoading(false); clearInterval(interval);
+                        }
+                        else {
+                            var waterCount;
+
+                            if (typeof (response.data.data.activeTools.find(el => el.type === "WATER")) === 'undefined')
+                                waterCount = 999
+                            else
+                                waterCount = response.data.data.activeTools.find(el => el.type === "WATER").count
+
+                            if (response.data.data.hasCrow || waterCount <= waterThreshold) {
+                                temp.push(response.data.data)
+                                var temptemp = [...temp]
+                                dispatch(setDetectorAddresses(temptemp))
+                            }
+                            console.log(".")
+                        }
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        }
+
+        const getPlants = async () => {
+            allPlants = await db.plants.toArray();
+            allPlants.forEach(async (el, index) => {
+                console.log(index)
+                await sleep(2000);
+                await requestGetPlants(el);
+            })
+        }
+        await getPlants();
+    }
+
+    const downloadPlant = async (token) => {
+        var count = from;
+        console.log("Downloading " + LandAddressesData.length + " land addresses data")
 
         setLoading(true)
-        interval = setInterval(() => {
+        interval = setInterval(async () => {
 
             if (count > LandAddressesData.length) {
-                clearInterval(interval);
+                dispatch(setDetectorFrom(LandAddressesData.length)); clearInterval(interval); setLoading(false);
             }
 
             let config = {
@@ -199,41 +345,32 @@ export function AutoDetector() {
 
             axios(config)
                 .then(async function (response) {
+                    console.log("Addess ke: " + (count + 1))
                     if (response.data.status === 556) {
-                        setCaptha(true); setLoading(false);
+                        setCaptha(true); console.log("captha")
                     } else {
-                        setLoading(true); setCaptha(false);
+                        setCaptha(false);
 
                         if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) {
-                            setSession(true); setCaptha(false); setLoading(false); clearInterval(interval);
+                            setSession(true); setCaptha(false); setLoading(false); clearInterval(interval); console.log("invalid object")
                         }
                         else {
-                            console.log(count)
-                            response.data.data.map(element => {
-                                var waterCount;
-
-                                if (typeof (element.activeTools.find(el => el.type === "WATER")) === 'undefined')
-                                    waterCount = 999
-                                else
-                                    waterCount = element.activeTools.find(el => el.type === "WATER").count
-
-                                if (element.hasCrow || waterCount <= waterThreshold) {
-                                    console.log("valid")
-                                    temp.push(element)
-                                    var temptemp = [...temp]
-                                    dispatch(setDetectorAddresses(temptemp))
+                            await db.addresses.add({ addresses: LandAddressesData[count] })
+                            response.data.data.map(async (element) => {
+                                let plant = {
+                                    plant: element._id,
+                                    ownerId: element.ownerId,
                                 }
+                                await db.plants.add(plant);
                             })
-                            count++
                         }
+                        count++
                     }
                 })
                 .catch(function (error) {
-                    console.log(error); setSession(false); setCaptha(false); setLoading(false); clearInterval(interval);
+                    console.log(error);
                 })
-        }, 500);
-
-        await sleep(3000); setSession(false); setCaptha(false); setLoading(false);
+        }, 2000);
     }
 
     if (password === true) {
@@ -241,7 +378,7 @@ export function AutoDetector() {
             <Box component="span" m={1}>
                 <div className={classes.root}>
                     <Typography variant="h5" component="h2">
-                        Water & Crow Detector
+                        Kang Nyari
                     </Typography>
                     <TextField
                         id="outlined-full-width"
@@ -271,68 +408,52 @@ export function AutoDetector() {
     } else {
         return (
             <Box component="span" m={1}>
-                <div className={classes.root}>
-                    <Typography variant="h5" component="h2">
-                        Water & Crow Detector
-                    </Typography>
-                    <TextField
-                        id="outlined-full-width"
-                        label="JWT Token"
-                        fullWidth
-                        value={token}
-                        onChange={(e) => {
-                            dispatch(setDetectorToken(e.target.value))
-                        }}
-                        placeholder="Your login token"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
-                    <TextField
-                        id="outlined-full-width"
-                        label="Water Threshold"
-                        type="number"
-                        fullWidth
-                        value={water}
-                        onChange={(e) => {
-                            if (e.target.value < 1) {
-                                dispatch(setDetectorWater(1))
-                            } else {
-                                dispatch(setDetectorWater(e.target.value))
-                            }
-                        }}
-                        placeholder="The water threshold you want (it will detect lesser than what you input here)"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
-                    <TextField
-                        id="outlined-full-width"
-                        label="Visit from"
-                        type="number"
-                        fullWidth
-                        value={from}
-                        onChange={(e) => {
-                            if (e.target.value < 1) {
-                                dispatch(setDetectorFrom(1))
-                            } else {
-                                dispatch(setDetectorFrom(e.target.value))
-                            }
-                        }}
-                        placeholder="Determine the first address to visit, this behave incrementally"
-                        margin="normal"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="outlined"
-                    />
-                </div>
+                <Typography variant="h5" component="h2">
+                    Kang Nyari
+                </Typography>
+                <TextField
+                    id="outlined-full-width"
+                    label="JWT Token"
+                    fullWidth
+                    value={token}
+                    onChange={(e) => {
+                        dispatch(setDetectorToken(e.target.value))
+                    }}
+                    placeholder="Please input your login token before doing anything"
+                    margin="normal"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                />
+                <ShowDownloaded />
+                <Button disabled={(from + 1) !== LandAddressesData.length ? false : true} fullWidth onClick={() => {
+                    downloadPlant(token)
+                }} variant="contained" color="primary">
+                    Download data
+                </Button>
+                <TextField
+                    id="outlined-full-width"
+                    label="Water Threshold"
+                    type="number"
+                    fullWidth
+                    value={water}
+                    onChange={(e) => {
+                        if (e.target.value < 1) {
+                            dispatch(setDetectorWater(1))
+                        } else {
+                            dispatch(setDetectorWater(e.target.value))
+                        }
+                    }}
+                    placeholder="The water threshold you want (it will detect lesser than what you input here)"
+                    margin="normal"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                />
                 <Button fullWidth onClick={() => {
-                    generateAddress(token, from, water)
+                    GenerateAddresses(water)
                 }} variant="contained" color="primary">
                     Detect
                 </Button>
@@ -342,12 +463,19 @@ export function AutoDetector() {
                     Clear
                 </Button>
                 <Collapse in={captha}>
-                    <Alert severity="warning">INPUT CAPTHA ON THE MAIN GAME!</Alert>
+                    <Alert severity="warning">Input the captha on the main game!</Alert>
+                    {/* <Button fullWidth onClick={() => {
+                        getCaptha()
+                        setOnCaptha(true);
+                    }} variant="contained" color="secondary">
+                        Get Captha
+                    </Button> */}
                 </Collapse>
                 <Collapse in={loading}>
                     <LinearProgress />
                 </Collapse>
                 <LogoutSign />
+                {/* <CapthaBox /> */}
                 <DetectorTable />
             </Box>
         )

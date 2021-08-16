@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -142,7 +142,7 @@ export default function EnhancedTable() {
     const [rows, setRows] = React.useState([])
     const [rowsPerPage, setRowsPerPage] = React.useState(rows.length);
 
-    const handleSelect = async (name) => {
+    const handleSelect = useCallback((name) => {
         var arr = [...selected]
         var temp = arr.indexOf(name);
         if (temp === -1) {
@@ -152,12 +152,12 @@ export default function EnhancedTable() {
         }
 
         setSelected(arr);
-    };
+    }, [selected]);
 
     useEffect(() => {
         const getRows = LandAddresses(handleSelect);
         setRows(getRows)
-    }, [])
+    }, [handleSelect])
 
     if (rows.length === 0) {
         return (

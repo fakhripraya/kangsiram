@@ -2,10 +2,10 @@ export const KangGagak = `
 // ==UserScript==
 // @name         Kang Gagak
 // @namespace    http://tampermonkey.net/
-// @version      1.0.10
+// @version      1.1.14
 // @description  try to take over the crow!
 // @author       You
-// @match        https://marketplace.plantvsundead.com/farm/other/*
+// @match        https://marketplace.plantvsundead.com/*
 // @icon         https://plantvsundead.com/assets/img/icon.svg
 // @updateURL    https://github.com/fakhripraya/KangKebon/raw/main/monyet-pengganggu-pvu-gagak.user.js
 // @require      https://www.cssscript.com/demo/simple-vanilla-javascript-toast-notification-library-toastify/src/toastify.js
@@ -43,18 +43,20 @@ export const KangGagak = `
         text: "Sudah page terakhir :( ",
         close: true
     })
-
+    var checkloopgagak = true,
+        prevPage = 0,
+        backgroundElement;
     console.log("Loading...")
 
     var interval = setInterval(() => {
         var loadingGif = document.getElementsByClassName("loading-page");
-        var capthaWindow = document.getElementsByClassName("tw-m-auto exclamation");
+        var capthaDialog = document.getElementsByClassName("v-dialog__content v-dialog__content--active");
         var bodyElement = document.getElementById("__layout").children[0].children[1].children[0];
 
         if (typeof (bodyElement) !== 'undefined') {
             if (bodyElement.className === "content-wrapper tw-bg-farm-mobile sm:tw-bg-farm-desktop tw-p-2") {
                 if (loadingGif.length === 0) {
-                    if (typeof (capthaWindow) !== 'undefined') {
+                    if (capthaDialog.length === 0) {
                         var curPage = document.getElementsByClassName("currentPage tw-mr-2")[0];
                         if (typeof (curPage) !== 'undefined')
                             curPage = curPage.innerText;
@@ -65,12 +67,30 @@ export const KangGagak = `
                             maxPage = maxPage[0];
                         }
 
+                        if (curPage != prevPage) {
+                            var revertElement = document.getElementsByClassName("tw-p-3");
+                            for (let i = 0; i < revertElement.length; i++) {
+                                if (revertElement[i].style.backgroundColor == "red") {
+                                    revertElement[i].style.backgroundColor = "#151721";
+                                }
+                                prevPage = prevPage++;
+                            }
+                        }
+
                         var validCount = 0;
                         let a = document.querySelectorAll('.crow-icon')
                         for (let index = 0; index < a.length; index++) {
                             let b = a[index];
                             if (b.getAttribute('style') == "") {
                                 validCount += 1;
+                                b.parentElement.parentElement.parentElement.style.backgroundColor = "red";
+                                if (checkloopgagak) {
+                                    b.parentElement.parentElement.parentElement.scrollIntoView({
+                                        block: 'end',
+                                        behavior: 'smooth'
+                                    });
+                                    checkloopgagak = false;
+                                }
                             }
                         }
 
@@ -86,7 +106,12 @@ export const KangGagak = `
                             console.log("Sudah page terakhir");
                             clearInterval(interval);
                         } else if (validCount === 0) {
-                            document.querySelectorAll('.tw-mt-6')[1].children[4].click();
+                            if (capthaDialog.length === 0) {
+                                document.querySelectorAll('.tw-mt-6')[1].children[4].click();
+                                prevPage = curPage;
+                                checkloopgagak = true;
+
+                            }
                         } else {
                             crowToast.showToast();
                             console.log("Ada crow!");
