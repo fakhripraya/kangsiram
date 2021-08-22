@@ -272,7 +272,7 @@ export function AutoDetector() {
         let temp = []
 
         setLoading(true);
-        const requestGetPlants = async (el) => {
+        const requestGetPlants = (el) => {
             let config = {
                 method: 'get',
                 url: `https://backend-farm.plantvsundead.com/farms/${el.plant}`,
@@ -317,8 +317,9 @@ export function AutoDetector() {
             allPlants = await db.plants.toArray();
             allPlants.forEach(async (el, index) => {
                 console.log(index)
-                await sleep(2000);
-                await requestGetPlants(el);
+                setTimeout(() => {
+                    requestGetPlants(el);
+                }, 2000);
             })
         }
         await getPlants();
