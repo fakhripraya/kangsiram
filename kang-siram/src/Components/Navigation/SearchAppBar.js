@@ -66,6 +66,13 @@ export default function SearchAppBar() {
                             </Typography>
                         </Button>
                     </Link>
+                    <Link to="/monitor" style={{ textDecoration: 'none' }}>
+                        <Button className={classes.navButton} variant="contained">
+                            <Typography noWrap>
+                                <span style={{ color: "white", fontWeight: "bold" }}>Kang Jaga</span>
+                            </Typography>
+                        </Button>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </div>

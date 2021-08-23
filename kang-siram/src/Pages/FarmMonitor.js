@@ -88,7 +88,7 @@ export function DetectedAddresses(callback) {
     return addresses;
 }
 
-export function AutoDetector() {
+export function FarmMonitor() {
 
     const db = new Dexie("IndexedDB");
 
@@ -284,7 +284,9 @@ export function AutoDetector() {
                     } else {
                         setCaptha(false);
 
-                        if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) { console.log("The data or the session might be invalid") }
+                        if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) {
+                            setSession(true); setCaptha(false); setLoading(false); clearInterval(interval);
+                        }
                         else {
                             var waterCount;
 
@@ -310,11 +312,10 @@ export function AutoDetector() {
         const getPlants = async () => {
             var index = 0;
             allPlants = await db.plants.toArray();
-            var getAddressIntv = setInterval(() => {
-                if (index === allPlants.length)
-                    clearInterval(getAddressIntv)
-                console.log(index); requestGetPlants(allPlants[index]); index++;
-            }, 100);
+            setTimeout(() => {
+                requestGetPlants(allPlants[index]);
+                index++;
+            }, 2000);
         }
         await getPlants();
     }
@@ -346,7 +347,9 @@ export function AutoDetector() {
                     } else {
                         setCaptha(false);
 
-                        if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) { console.log("The data or the session might be invalid"); }
+                        if (Object.keys(response.data.data).length === 0 && response.data.data.constructor === Object) {
+                            setSession(true); setCaptha(false); setLoading(false); clearInterval(interval); console.log("invalid object")
+                        }
                         else {
                             await db.addresses.add({ addresses: LandAddressesData[count] })
                             response.data.data.map(async (element) => {
@@ -371,7 +374,7 @@ export function AutoDetector() {
             <Box component="span" m={1}>
                 <div className={classes.root}>
                     <Typography variant="h5" component="h2">
-                        Kang Nyari
+                        Kang Jaga
                     </Typography>
                     <TextField
                         id="outlined-full-width"

@@ -7,6 +7,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import PlotAddress from './Pages/PlotAddress';
 import { AutoDetector } from './Pages/AutoDetector';
 import PVUBot from './Pages/PVUBot';
+import { FarmMonitor } from './Pages/FarmMonitor';
 import ChangeLog from './Pages/ChangeLog';
 import { createBrowserHistory } from 'history';
 
@@ -24,6 +25,7 @@ function SimpleContainer() {
             <Route path='/detector' exact component={AutoDetector} />
             <Route path='/log' exact component={ChangeLog} />
             <Route path='/bot' exact component={PVUBot} />
+            <Route path='/monitor' exact component={FarmMonitor} />
           </Switch>
           <br />
           <BottomNavigation />
