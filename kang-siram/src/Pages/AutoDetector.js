@@ -264,11 +264,12 @@ export function AutoDetector() {
 
     const GenerateAddresses = async (waterThreshold) => {
         //get all plants from the database
-        let allPlants = []
         let temp = []
+        var index = 0;
+        let allPlants = await db.plants.toArray();
 
         setLoading(true);
-        const requestGetPlants = (el) => {
+        const requestGetPlants = (el, plantNum) => {
             let config = {
                 method: 'get',
                 url: `https://backend-farm.plantvsundead.com/farms/${el.plant}`,
@@ -298,7 +299,9 @@ export function AutoDetector() {
                                 var temptemp = [...temp]
                                 dispatch(setDetectorAddresses(temptemp))
                             }
-                            console.log(".")
+                            console.log("Plant number: " + plantNum + "has been visited.");
+                            if (plantNum + 1 === allPlants.length)
+                                setLoading(false);
                         }
                     }
                 })
@@ -308,14 +311,13 @@ export function AutoDetector() {
         }
 
         const getPlants = async () => {
-            var index = 0;
-            allPlants = await db.plants.toArray();
             var getAddressIntv = setInterval(() => {
-                if (index === allPlants.length)
-                    clearInterval(getAddressIntv)
-                console.log(index); requestGetPlants(allPlants[index]); index++;
+                if (index + 1 === allPlants.length)
+                    clearInterval(getAddressIntv);
+                requestGetPlants(allPlants[index], index); index++;
             }, 100);
         }
+
         await getPlants();
     }
 
@@ -338,7 +340,7 @@ export function AutoDetector() {
                 }
             }
 
-            axios(config)
+            await axios(config)
                 .then(async function (response) {
                     console.log("Addess ke: " + (count + 1))
                     if (response.data.status === 556) {
